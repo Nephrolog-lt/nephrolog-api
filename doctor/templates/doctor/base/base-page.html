@@ -16,6 +16,14 @@
         <nav class="sidebar-navigation">
             <ul class="menu">
 
+                <li class="menu-item{% if active_menu_item == 'summary' %} active{% endif %}">
+                    <a class="menu-link" href="{% url 'doctor:index' %}">
+                        <span class="icon">
+                            <i class="material-icons">info</i>
+                        </span>
+                        <span class="title">{% trans "Suvestinė" %}</span>
+                    </a>
+                </li>
                 <li class="menu-item{% if active_menu_item == 'nutrition' %} active{% endif %}">
                     <a class="menu-link" href="{% url 'doctor:nutrition' %}">
                         <span class="icon">
