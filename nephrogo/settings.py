@@ -69,7 +69,6 @@ INSTALLED_APPS = [
 
     'mathfilters',
 
-
     'ckeditor',
     'ckeditor_uploader',
 
@@ -93,6 +92,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'doctor.middleware.AssociateDoctorPatients',
 ]
 
 if DEBUG:
@@ -111,6 +111,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'doctor.context_processors.doctor_patients',
             ],
         },
     },
@@ -436,7 +437,6 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 
 ACCOUNT_ADAPTER = 'doctor.adapters.AccountAdapter'
 SOCIALACCOUNT_ADAPTER = 'doctor.adapters.SocialAccountAdapter'
-
 
 EMAIL_FROM = 'info@nephrogo.com'
 CONTACT_PHONE = '+37065253669'

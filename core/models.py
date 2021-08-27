@@ -1542,8 +1542,11 @@ class Doctor(models.Model):
     def get_doctor_by_user(user: settings.AUTH_USER_MODEL) -> Doctor:
         return Doctor.objects.get(user=user)
 
+    def get_patients(self) -> QuerySet[DoctorPatient]:
+        return DoctorPatient.objects.filter(doctor=self).select_related('doctor', 'patient_user')
+
     def get_patient(self) -> Optional[DoctorPatient]:
-        return DoctorPatient.objects.filter(doctor=self).first()
+        return self.get_patients().first()
 
     class Meta:
         default_related_name = "doctors"

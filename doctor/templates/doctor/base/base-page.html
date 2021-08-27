@@ -61,16 +61,14 @@
     <header class="topbar">
         <div class="topbar-left flex-grow">
             <span class="topbar-btn sidebar-toggler"><i>&#9776;</i></span>
-            <div class="w-100">
-                <form class="lookup lookup-huge" method="get" action="#TODO">
-                    <!--suppress HtmlFormInputWithoutLabel -->
-                    <input class="no-radius no-border" name="q" type="text" required
-                           placeholder="{% trans 'Ieškokite...' %}">
-                    <button type="submit" class="btn btn-pure btn-secondary topbar-btn">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
-
+            <div class="dropdown">
+                <span class="topbar-btn dropdown-toggle" data-toggle="dropdown"><i class="icon ti-user"></i>Pacientas:
+                {{ doctor_patients.first.patient_user.get_full_name }}</span>
+                <div class="dropdown-menu">
+                    {% for patient in doctor_patients %}
+                        <a class="dropdown-item" href="#">{{ patient.patient_user.get_full_name }}</a>
+                    {% endfor %}
+                </div>
             </div>
         </div>
         <div class="topbar-right">
