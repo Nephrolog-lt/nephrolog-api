@@ -1,0 +1,10 @@
+{% load tel_tags %}
+{% load setting_tags %}
+{% load i18n %}
+
+{% settings_value 'EMAIL_FROM' as contact_email %}
+{% settings_value 'CONTACT_PHONE' as contact_phone %}
+
+© NephroGo. {% trans 'Visos teisės saugomos' %}.
+{% trans 'Susisiekite' %}:
+{{ contact_phone|urltel }} | {{ contact_email|urlize }}

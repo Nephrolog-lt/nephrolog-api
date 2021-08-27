@@ -1,0 +1,83 @@
+{% load site_tags %}
+{% load static %}
+{% load capture_tags %}
+{% load setting_tags %}
+{% load i18n %}
+
+{% settings_value "GIT_COMMIT" as GIT_COMMIT %}
+
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    {% capture as meta_title silent %}{% block title %}{% endblock %}{% endcapture %}
+    {% capture as meta_description silent %}{% block description %}{% endblock %}{% endcapture %}
+    {% capture as meta_keywords silent %}{% block keywords %}{% endblock %}{% endcapture %}
+    {% capture as image silent %}{% block image %}{% endblock %}{% endcapture %}
+    {% capture as video silent %}{% block video %}{% endblock %}{% endcapture %}
+
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description"
+          content="{% blocktrans trimmed %}{{ meta_description }}{% endblocktrans %}">
+    {% if meta_keywords %}
+        <meta name="keywords" content="{% blocktrans trimmed %}{{ meta_keywords }}{% endblocktrans %}">
+    {% endif %}
+
+    <title>{% blocktrans trimmed %}{{ meta_title }} | NephroGo{% endblocktrans %}</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,300i" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+          integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+          crossorigin="anonymous"/>
+
+    <!-- Styles -->
+    <link href="{% static "css/core.min.css" %}?v={{ GIT_COMMIT }}" rel="stylesheet">
+    <link href="{% static "css/app.min.css" %}?v={{ GIT_COMMIT }}" rel="stylesheet">
+    <link href="{% static "css/style.css" %}?v={{ GIT_COMMIT }}" rel="stylesheet">
+
+    <!-- OG -->
+    <meta name="og:title" content="{% blocktrans trimmed %}{{ meta_title }}{% endblocktrans %}">
+    <meta name="og:site_name" content="GetPet">
+    <meta name="og:description" content="{% blocktrans trimmed %}{{ meta_description }}{% endblocktrans %}">
+    {% if image %}
+        <meta name="og:image" content="{% blocktrans trimmed %}{{ image }}{% endblocktrans %}">
+    {% else %}
+        <meta name="og:image" content="{% static_full 'web/img/logo/getpet-logo-square-big.png' %}">
+    {% endif %}
+    {% if video %}
+        <meta property="og:video" content="{{ video }}">
+    {% endif %}
+    <meta name="og:type" content="website">
+
+    <!-- Favicons -->
+    <link rel="shortcut icon" href="{% static 'web/img/favicon/favicon.ico' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'web/img/favicon/favicon.ico' %}" type="image/x-icon">
+
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+{% block extra_body_start %}
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
+
+{% block topbar %}
+{% endblock %}
+
+{% block main_container %}
+{% endblock %}
+
+<!-- Scripts -->
+<script src="{% static "js/core.min.js" %}?v={{ GIT_COMMIT }}"></script>
+<script src="{% static "js/app.min.js" %}?v={{ GIT_COMMIT }}"></script>
+<script src="{% static "js/script.js" %}?v={{ GIT_COMMIT }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
+        integrity="sha512-RXf+QSDCUQs5uwRKaDoXt55jygZZm2V++WUZduaU/Ui/9EGp3f/2KZVahFZBKGH0s774sd3HmrhUy+SgOFQLVQ=="
+        crossorigin="anonymous"></script>
+{% block script %}{% endblock %}
+</body>
+</html>

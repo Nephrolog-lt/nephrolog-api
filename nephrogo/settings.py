@@ -7,6 +7,7 @@ import environ
 import sentry_sdk
 from celery.schedules import crontab
 from ddtrace.filters import FilterRequestsOnUrl
+from django.urls import reverse_lazy
 from django.utils.log import DEFAULT_LOGGING
 import logging.config
 from ddtrace import Pin, config, patch_all, tracer
@@ -39,7 +40,6 @@ USE_X_FORWARDED_HOST = True
 
 # Application definition
 INSTALLED_APPS = [
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,8 +47,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.sites',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 
     'django.contrib.postgres',
+
+    'crispy_forms',
+
+    'core.apps.CoreConfig',
+    'api.apps.ApiConfig',
+    'doctor.apps.DoctorConfig',
+    'utils',
 
     'rest_framework',
     'django_filters',
@@ -59,11 +67,16 @@ INSTALLED_APPS = [
     'admin_numeric_filter',
     'csvexport',
 
+    'mathfilters',
+
+
     'ckeditor',
     'ckeditor_uploader',
 
-    'core.apps.CoreConfig',
-    'api.apps.ApiConfig',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 
     'health_check',
     'health_check.db',
@@ -135,6 +148,11 @@ else:
 
 AUTH_USER_MODEL = 'core.User'
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -156,13 +174,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'lt'
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = False
 
-USE_L10N = False
+USE_L10N = True
 
 USE_TZ = True
 
@@ -387,6 +405,41 @@ CKEDITOR_CONFIGS = {
         ]),
     }
 }
+
+BASE_REAL_DOMAIN = "https://doctor.nephrogo.com/"
+BASE_DOMAIN = "https://doctor.nephrogo.com/"
+
+# Django all auth
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_LOGOUT_REDIRECT_URL = reverse_lazy("doctor:index")
+LOGIN_REDIRECT_URL = reverse_lazy("doctor:index")
+ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+ACCOUNT_LOGOUT_ON_GET = False
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
+ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
+ACCOUNT_FORMS = {
+    'login': 'doctor.forms.LoginForm',
+    'signup': 'doctor.forms.SignupForm',
+    'reset_password': 'doctor.forms.ResetPasswordForm',
+}
+SOCIALACCOUNT_FORMS = {
+    'signup': 'doctor.forms.SocialSignupForm',
+}
+SOCIALACCOUNT_QUERY_EMAIL = True
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+
+ACCOUNT_ADAPTER = 'doctor.adapters.AccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'doctor.adapters.SocialAccountAdapter'
+
+
+EMAIL_FROM = 'info@nephrogo.com'
+CONTACT_PHONE = '+37065253669'
 
 if not DEBUG:
     patch_all()

@@ -1,0 +1,32 @@
+{% extends 'doctor/base/base-page.html' %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block title %}{% trans 'Mityba' %}{% endblock %}
+
+
+{% block content %}
+    {% if reports.exists %}
+        {% for report in reports %}
+            {% include 'doctor/cell/daily-nutrition-report-card.html' with report=report %}
+        {% endfor %}
+
+        <footer class="flexbox align-items-center mb-4">
+            {% include 'doctor/widget/pagination.html' with paginator_page=page_obj %}
+        </footer>
+    {% else %}
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="card">
+                    <div class="card-body">
+                        <div>
+                            <i class="fas fa-paw fs-90"></i>
+                        </div>
+                        {% trans 'Rezultatų nerasta.' %}.
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends "doctor/base/base.html" %}
+{% load image_tags %}
+{% load i18n %}
+{% load static %}
+
+{% block sidebar %}
+    <aside class="sidebar sidebar-expand-lg sidebar-iconic">
+        <header class="sidebar-header">
+            <a href="{% url 'doctor:index' %}">
+                <span class="logo">
+                    <img src="{% static "img/logo/nephrogo-logo.png" %}" alt="GetPet">
+                </span>
+            </a>
+        </header>
+
+        <nav class="sidebar-navigation">
+            <ul class="menu">
+
+                <li class="menu-item{% if active_menu_item == 'nutrition' %} active{% endif %}">
+                    <a class="menu-link" href="{% url 'doctor:nutrition' %}">
+                        <span class="icon">
+                            <i class="material-icons">restaurant</i>
+                        </span>
+                        <span class="title">{% trans "Mityba" %}</span>
+                    </a>
+                </li>
+
+                <li class="menu-item{% if active_menu_item == 'health_status' %} active{% endif %}">
+                    <a class="menu-link" href="#todo">
+                        <span class="icon">
+                            <i class="material-icons">assessment</i>
+                        </span>
+                        <span class="title">{% trans "Rodikliai" %}</span>
+                    </a>
+                </li>
+
+                <li class="menu-item{% if active_menu_item == 'dialysis' %} active{% endif %}">
+                    <a class="menu-link" href="#todo">
+                        <span class="icon">
+                            <i class="material-icons">opacity</i>
+                        </span>
+                        <span class="title">{% trans "Dializės" %}</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+    </aside>
+{% endblock %}
+
+{% block topbar %}
+    <!-- Topbar -->
+    <header class="topbar">
+        <div class="topbar-left flex-grow">
+            <span class="topbar-btn sidebar-toggler"><i>&#9776;</i></span>
+            <div class="w-100">
+                <form class="lookup lookup-huge" method="get" action="#TODO">
+                    <!--suppress HtmlFormInputWithoutLabel -->
+                    <input class="no-radius no-border" name="q" type="text" required
+                           placeholder="{% trans 'Ieškokite...' %}">
+                    <button type="submit" class="btn btn-pure btn-secondary topbar-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+
+            </div>
+        </div>
+        <div class="topbar-right">
+            <div class="topbar-btns">
+                <form method="post" action="{% url 'account_logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-pure topbar-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="topbar-divider"></div>
+        </div>
+    </header>
+    <!-- END Topbar -->
+{% endblock %}
+
+{% block main_container %}
+    <main class="main-container">
+
+        {% block main_aside %}
+        {% endblock %}
+
+        <div class="main-content">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="text-center text-md-left">
+                        {% include 'doctor/elements/footer-text.html' %}
+                    </p>
+                </div>
+
+                <div class="col-md-6">
+                    <ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">
+                        <li class="nav-item">
+                            {% if user.is_superuser %}
+                                <a class="nav-link" href="{% url 'admin:index' %}">
+                                    {% trans 'Super administravimas' %}
+                                </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+        <!-- END Footer -->
+
+    </main>
+{% endblock %}

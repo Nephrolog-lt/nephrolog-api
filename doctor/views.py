@@ -1,0 +1,48 @@
+from typing import Any, Dict
+
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.http.request import HttpRequest
+from django.shortcuts import render
+from django.views.generic import ListView
+
+from core import models
+from doctor.mixins import UserIsDoctorMixin
+
+
+class IndexView(UserIsDoctorMixin):
+
+    # noinspection PyMethodMayBeStatic
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        return render(request, 'doctor/no-associated-shelter.html')
+
+
+class NutritionView(UserIsDoctorMixin, ListView):
+    template_name = 'doctor/nutrition.html'
+    context_object_name = 'reports'
+    model = models.DailyIntakesReport
+    paginate_by = 30
+
+    def get_queryset(self):
+        # noinspection PyUnresolvedReferences
+        doctor = models.Doctor.get_doctor_by_user(self.request.user)
+        patient = doctor.get_patient()
+
+        reports = models.DailyIntakesReport.filter_for_user(
+            patient.patient_user).annotate_with_nutrient_totals(). \
+            prefetch_intakes(). \
+            exclude_empty_intakes(). \
+            order_by('-date')
+
+        return reports
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['active_menu_item'] = 'nutrition'
+
+        return context
+
+
+@login_required(redirect_field_name=None)
+def no_associated_shelter(request: HttpRequest) -> HttpResponse:
+    return render(request, 'doctor/no-associated-shelter.html')

@@ -1,0 +1,16 @@
+{% extends 'doctor/base/base.html' %}
+
+{% block main_container %}
+    <div class="row no-margin h-fullscreen" style="padding-top: 10%">
+
+        <div class="col-12">
+            {% block fullscreen_content %}{% endblock %}
+        </div>
+
+        <footer class="col-12 align-self-end text-center fs-13">
+            <p>
+                {% include 'doctor/elements/footer-text.html' %}
+            </p>
+        </footer>
+    </div>
+{% endblock %}

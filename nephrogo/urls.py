@@ -24,7 +24,9 @@ from nephrogo.settings import MEDIA_URL, MEDIA_ROOT
 urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('v1/', include(api.urls.urlpatterns)),
+                  path('doctor/', include('doctor.urls', namespace='doctor')),
                   path('health/', include('health_check.urls')),
                   path('ckeditor/', include('ckeditor_uploader.urls')),
+                  path('accounts/', include('allauth.urls')),
                   path('', RedirectView.as_view(pattern_name='swagger-ui'))
               ] + static(MEDIA_URL, document_root=MEDIA_ROOT)

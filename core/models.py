@@ -907,6 +907,13 @@ class Intake(models.Model):
 
         super().save(force_insert, force_update, using, update_fields)
 
+    def formatted_amount(self) -> str:
+        if self.amount_ml is None:
+            return f'{self.amount_g} g'
+
+        return f'{self.amount_ml} ml'
+
+
     @staticmethod
     def get_latest_user_intakes(user: AbstractBaseUser) -> IntakeQuerySet:
         return Intake.objects.filter(user=user).select_related_product().order_by('-consumed_at')
@@ -1531,6 +1538,13 @@ class Doctor(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    @staticmethod
+    def get_doctor_by_user(user: settings.AUTH_USER_MODEL) -> Doctor:
+        return Doctor.objects.get(user=user)
+
+    def get_patient(self) -> Optional[DoctorPatient]:
+        return DoctorPatient.objects.filter(doctor=self).first()
 
     class Meta:
         default_related_name = "doctors"

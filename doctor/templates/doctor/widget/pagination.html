@@ -1,0 +1,40 @@
+{% load i18n %}
+
+<span class="flex-grow text-right text-lighter pr-2">
+    {{ paginator_page.start_index }}-{{ paginator_page.end_index }} {% trans "iš" %} {{ paginator_page.paginator.count }}
+</span>
+<nav>
+    <ul class="pagination mb-0">
+        {% with pagination_info=paginator_page.pagination_info %}
+            {% with previous_url=pagination_info.previous_url %}
+                <li class="page-item {{ previous_url|yesno:",disabled" }}">
+                    <a class="page-link"
+                       href="{{ previous_url|default_if_none:"#" }}">
+                        <span class="ti-arrow-left"></span>
+                    </a>
+                </li>
+            {% endwith %}
+
+            {% for entry in pagination_info.entries %}
+                {% if entry.url %}
+                    <li class="page-item {{ entry.is_active|yesno:"active," }}">
+                        <a class="page-link" href="{{ entry.url }}">{{ entry.text }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item {{ entry.is_active|yesno:"active,disabled" }}">
+                        <div class="page-link">{{ entry.text }}</div>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% with next_url=pagination_info.next_url %}
+                <li class="page-item {{ next_url|yesno:",disabled" }}">
+                    <a class="page-link"
+                       href="{{ next_url|default_if_none:"#" }}">
+                        <span class="ti-arrow-right"></span>
+                    </a>
+                </li>
+            {% endwith %}
+        {% endwith %}
+    </ul>
+</nav>

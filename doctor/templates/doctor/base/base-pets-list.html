@@ -1,0 +1,66 @@
+{% extends 'doctor/base/base-page.html' %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+
+{% block main_aside %}
+    <aside class="aside aside-expand-md">
+        <div class="aside-body">
+            <div class="mr-4 ml-4 mt-2">
+                <a class="btn btn-bold btn-block btn-primary"
+                   href="{% block create_pet_url %}{% endblock %}">
+                    {% block create_pet_text %}{% endblock %}
+                </a>
+                <hr>
+            </div>
+            {% crispy filters_form %}
+        </div>
+
+        <button class="aside-toggler"></button>
+    </aside>
+{% endblock %}
+
+{% block content %}
+    {% if search_term %}
+        <div class="alert alert-info" role="alert">
+            {% trans 'Žemiau pateikiami paieškos rezultatai pagal' %}: <strong>{{ search_term }}</strong>
+        </div>
+    {% endif %}
+
+    {% if pets.exists %}
+        {% for pet in pets %}
+            {% include 'doctor/cell/pet-big-cell.html' with pet=pet %}
+        {% endfor %}
+
+        <footer class="flexbox align-items-center mb-4">
+            {% include 'doctor/widget/pagination.html' with paginator_page=page_obj %}
+        </footer>
+    {% else %}
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="card">
+                    <div class="card-body">
+                        <div>
+                            <i class="fas fa-paw fs-90"></i>
+                        </div>
+                        {% trans 'Deja, pagal dabartinius paieškos kriterijus gyvūnų nerasta.' %}.
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            $(".aside-block").submit(function () {
+                $(this).find(':input').filter(function () {
+                    return !this.value;
+                }).attr('disabled', 'disabled');
+                return true;
+            });
+        })
+    </script>
+{% endblock %}
