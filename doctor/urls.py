@@ -7,4 +7,5 @@ app_name = 'doctor'
 urlpatterns = [
     path('', views.NutritionView.as_view(), name="index"),
     path('nutrition/', views.NutritionView.as_view(), name="nutrition"),
+    path('health/', views.HealthStatusView.as_view(), name="health_status"),
 ]

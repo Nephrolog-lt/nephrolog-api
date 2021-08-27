@@ -913,7 +913,6 @@ class Intake(models.Model):
 
         return f'{self.amount_ml} ml'
 
-
     @staticmethod
     def get_latest_user_intakes(user: AbstractBaseUser) -> IntakeQuerySet:
         return Intake.objects.filter(user=user).select_related_product().order_by('-consumed_at')
