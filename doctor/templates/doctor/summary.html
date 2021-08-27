@@ -70,7 +70,7 @@
                         },
                     {% endif %}
 
-                    {% if nutrition_reports.last.daily_norm_proteins_mg %}
+                    {% if nutrition_reports.last.daily_norm_sodium_mg %}
                         {
                             label: '{% trans 'Natris' %}',
                             data: [
@@ -96,7 +96,7 @@
                                     {% if daily_norm_phosphorus_mg %}
                                         {
                                             x: '{{ report.date.isoformat }}',
-                                            y: {{report.total_sodium_mg|div:report.daily_norm_phosphorus_mg|mul:100|floatformat:"0"}},
+                                            y: {{report.total_phosphorus_mg|div:report.daily_norm_phosphorus_mg|mul:100|floatformat:"0"}},
                                         },
                                     {% endif %}
                                 {% endfor %}
@@ -113,7 +113,7 @@
                                     {% if report.daily_norm_energy_kcal %}
                                         {
                                             x: '{{ report.date.isoformat }}',
-                                            y: {{report.total_sodium_mg|div:report.daily_norm_energy_kcal|mul:100|floatformat:"0"}},
+                                            y: {{report.total_energy_kcal|div:report.daily_norm_energy_kcal|mul:100|floatformat:"0"}},
                                         },
                                     {% endif %}
                                 {% endfor %}
@@ -130,7 +130,7 @@
                                     {% if report.daily_norm_liquids_g %}
                                         {
                                             x: '{{ report.date.isoformat }}',
-                                            y: {{report.total_sodium_mg|div:report.daily_norm_liquids_g|mul:100|floatformat:"0"}},
+                                            y: {{report.total_liquids_g|div:report.daily_norm_liquids_g|mul:100|floatformat:"0"}},
                                         },
                                     {% endif %}
                                 {% endfor %}
