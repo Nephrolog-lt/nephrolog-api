@@ -1,4 +1,5 @@
 {% extends 'doctor/base/base-page.html' %}
+{% load humanize %}
 {% load l10n %}
 {% load mathfilters %}
 {% load crispy_forms_tags %}
@@ -9,6 +10,48 @@
 
 {% block content %}
     <div class="row">
+        <div class="col-lg-3 col-md-4">
+            <div class="card">
+                <h4 class="card-title"><strong>{% trans 'Medžiagų paros normos ' %}</strong></h4>
+
+                <table class="table table-striped table-hover">
+                    <tbody>
+                    {% if nutrition_reports.last.daily_norm_potassium_mg %}
+                        <tr>
+                            <td><strong>{% trans 'Kalis' %}</strong></td>
+                            <td>{{ nutrition_reports.last.daily_norm_potassium_mg|div:"3"|floatformat }} g</td>
+                        </tr>
+                    {% endif %}
+                    {% if nutrition_reports.last.daily_norm_proteins_mg %}
+                        <tr>
+                            <td><strong>{% trans 'Baltymai' %}</strong></td>
+                            <td>{{ nutrition_reports.last.daily_norm_proteins_mg|div:"3"|floatformat }} g</td>
+                        </tr>
+                    {% endif %}
+                    {% if nutrition_reports.last.daily_norm_sodium_mg %}
+                        <tr>
+                            <td><strong>{% trans 'Natris' %}</strong></td>
+                            <td>{{ nutrition_reports.last.daily_norm_sodium_mg|div:"3"|floatformat }} g</td>
+                        </tr>
+                    {% endif %}
+                    {% if nutrition_reports.last.daily_norm_phosphorus_mg %}
+                        <tr>
+                            <td><strong>{% trans 'Fosforas' %}</strong></td>
+                            <td>{{ nutrition_reports.last.daily_norm_phosphorus_mg|div:"3"|floatformat }} g</td>
+                        </tr>
+                    {% endif %}
+                    {% if nutrition_reports.last.daily_norm_liquids_ml %}
+                        <tr>
+                            <td><strong>{% trans 'Skysčiai' %}</strong></td>
+                            <td>{{ nutrition_reports.last.daily_norm_liquids_ml|intcomma }} ml</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
         <div class="col-12">
             <div class="card">
                 <h4 class="card-title"><strong>{% trans 'Medžiagų paros normų sunaudojimas ' %}</strong></h4>
