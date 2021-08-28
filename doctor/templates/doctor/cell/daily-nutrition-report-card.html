@@ -7,20 +7,20 @@
         <h5 class="card-title"><strong>{{ report.date|date }}</strong></h5>
     </div>
 
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover table-responsive-md">
         <thead>
         <tr>
             <th>{% trans 'Valgis' %}</th>
             <th>{% trans 'Kiekis' %}</th>
             <th>{% trans 'Laikas' %}</th>
-            <th>{% trans 'Kalis' %}</th>
-            <th>{% trans 'Baltymai' %}</th>
-            <th>{% trans 'Natris' %}</th>
-            <th>{% trans 'Fosforas' %}</th>
-            <th>{% trans 'Skysčiai' %}</th>
-            <th>{% trans 'Energija' %}</th>
-            <th>{% trans 'Riebalai' %}</th>
-            <th>{% trans 'Angliavandeniai' %}</th>
+            <th>{% trans 'Kalis' %}, g</th>
+            <th>{% trans 'Baltymai' %}, g</th>
+            <th>{% trans 'Natris' %}, g</th>
+            <th>{% trans 'Fosforas' %}, g</th>
+            <th>{% trans 'Energija' %}, kcal</th>
+            <th>{% trans 'Skysčiai' %}, ml</th>
+            <th>{% trans 'Riebalai' %}, g</th>
+            <th>{% trans 'Angliavandeniai' %}, g</th>
         </tr>
         </thead>
         <tbody>
@@ -29,16 +29,86 @@
                 <td>{{ intake.product.name }}</td>
                 <td class="fw-500 w-80px">{{ intake.formatted_amount }}</td>
                 <td class="w-80px">{{ intake.consumed_at|time }}</td>
-                <td>{{ intake.potassium_mg|div:"3"|floatformat }} g</td>
-                <td>{{ intake.proteins_mg|div:"3"|floatformat }} g</td>
-                <td>{{ intake.sodium_mg|div:"3"|floatformat }} g</td>
-                <td>{{ intake.phosphorus_mg|div:"3"|floatformat }} g</td>
-                <td>{{ intake.energy_kcal }} kcal</td>
-                <td>{{ intake.liquids_ml }} ml</td>
-                <td>{{ intake.fat_mg|div:"3"|floatformat }} g</td>
-                <td>{{ intake.carbohydrates_mg|div:"3"|floatformat }} g</td>
+                <td>{{ intake.potassium_mg|div:"3"|floatformat|intcomma }}</td>
+                <td>{{ intake.proteins_mg|div:"3"|floatformat|intcomma }}</td>
+                <td>{{ intake.sodium_mg|div:"3"|floatformat|intcomma }}</td>
+                <td>{{ intake.phosphorus_mg|div:"3"|floatformat|intcomma }}</td>
+                <td>{{ intake.energy_kcal|intcomma }}</td>
+                <td>{{ intake.liquids_ml|intcomma }}</td>
+                <td>{{ intake.fat_mg|div:"3"|floatformat|intcomma }}</td>
+                <td>{{ intake.carbohydrates_mg|div:"3"|floatformat|intcomma }}</td>
             </tr>
         {% endfor %}
         </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="3"><strong>{% trans 'Iš viso' %}</strong></td>
+            <td>
+                <strong>
+                    {{ report.total_potassium_mg|div:"3"|floatformat|intcomma }}
+                </strong>
+                {% with norm_percentage=report.total_potassium_mg|div:report.daily_norm_potassium_mg|mul:100 %}
+                    {% if norm_percentage %}
+                        <small>({{ norm_percentage|floatformat:"0" }} %)</small>
+                    {% endif %}
+                {% endwith %}
+            </td>
+            <td>
+                <strong>
+                    {{ report.total_proteins_mg|div:"3"|floatformat|intcomma }}
+                </strong>
+                {% with norm_percentage=report.total_proteins_mg|div:report.daily_norm_proteins_mg|mul:100 %}
+                    {% if norm_percentage %}
+                        <small>({{ norm_percentage|floatformat:"0" }} %)</small>
+                    {% endif %}
+                {% endwith %}
+            </td>
+            <td>
+                <strong>
+                    {{ report.total_sodium_mg|div:"3"|floatformat|intcomma }}
+                </strong>
+                {% with norm_percentage=report.total_sodium_mg|div:report.daily_norm_sodium_mg|mul:100 %}
+                    {% if norm_percentage %}
+                        <small>({{ norm_percentage|floatformat:"0" }} %)</small>
+                    {% endif %}
+                {% endwith %}
+            </td>
+            <td>
+                <strong>
+                    {{ report.total_phosphorus_mg|div:"3"|floatformat|intcomma }}
+                </strong>
+                {% with norm_percentage=report.total_phosphorus_mg|div:report.daily_norm_phosphorus_mg|mul:100 %}
+                    {% if norm_percentage %}
+                        <small>({{ norm_percentage|floatformat:"0" }} %)</small>
+                    {% endif %}
+                {% endwith %}
+            </td>
+            <td>
+                <strong>
+                    {{ report.total_energy_kcal|intcomma }}
+                </strong>
+            </td>
+            <td>
+                <strong>
+                    {{ report.total_liquids_ml|intcomma }}
+                </strong>
+                {% with norm_percentage=report.total_liquids_ml|div:report.daily_norm_liquids_g|mul:100 %}
+                    {% if norm_percentage %}
+                        <small>({{ norm_percentage|floatformat:"0" }} %)</small>
+                    {% endif %}
+                {% endwith %}
+            </td>
+            <td>
+                <strong>
+                    {{ report.total_fat_mg|div:"3"|floatformat|intcomma }}
+                </strong>
+            </td>
+            <td>
+                <strong>
+                    {{ report.total_carbohydrates_mg|div:"3"|floatformat|intcomma }}
+                </strong>
+            </td>
+        </tr>
+        </tfoot>
     </table>
 </div>
