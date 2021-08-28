@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from decimal import Decimal
 from functools import reduce
 from typing import List, Optional
+from django.utils.translation import gettext_lazy as _
 
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.base_user import AbstractBaseUser
@@ -163,41 +164,41 @@ class User(AbstractUser):
 
 
 class Gender(models.TextChoices):
-    Male = "Male"
-    Female = "Female"
+    Male = "Male", _('Vyras')
+    Female = "Female", _('Moteris')
 
 
 class DialysisType(models.TextChoices):
-    Unknown = "Unknown"
-    AutomaticPeritonealDialysis = "AutomaticPeritonealDialysis"
-    ManualPeritonealDialysis = "ManualPeritonealDialysis"
-    Hemodialysis = "Hemodialysis"
-    PostTransplant = "PostTransplant"
-    NotPerformed = "NotPerformed"
+    Unknown = "Unknown", _("Nežinoma")
+    AutomaticPeritonealDialysis = "AutomaticPeritonealDialysis", _("Automatinė peritoninė dializė")
+    ManualPeritonealDialysis = "ManualPeritonealDialysis", _("Ambulatorinė peritoninė dializė")
+    Hemodialysis = "Hemodialysis", _("Hemodializė")
+    PostTransplant = "PostTransplant", _("Neatlieka, po inkstų transplantacijos")
+    NotPerformed = "NotPerformed", _("Neatlieka")
 
 
 class ChronicKidneyDiseaseStage(models.TextChoices):
-    Unknown = "Unknown"
-    Stage1 = "Stage1"
-    Stage2 = "Stage2"
-    Stage3 = "Stage3"
-    Stage4 = "Stage4"
-    Stage5 = "Stage5"
+    Unknown = "Unknown", _("Nežinoma")
+    Stage1 = "Stage1", _("1 stadija")
+    Stage2 = "Stage2", _("2 stadija")
+    Stage3 = "Stage3", _("3 stadija")
+    Stage4 = "Stage4", _("4 stadija")
+    Stage5 = "Stage5", _("5 stadija")
 
 
 class DiabetesType(models.TextChoices):
-    Unknown = "Unknown"
-    Type1 = "Type1"
-    Type2 = "Type2"
-    No = "No"
+    Unknown = "Unknown", _("Nežinoma")
+    Type1 = "Type1", _("1 tipo")
+    Type2 = "Type2", _("2 tipo")
+    No = "No", _("Neserga")
 
 
 class ChronicKidneyDiseaseAgeInterval(models.TextChoices):
-    Unknown = "Unknown", "Unknown"
-    BelowOne = "<1", "<1"
-    OneToFive = "1-5", "1-5"
-    SixToTen = "6-10", "6-10"
-    MoreThanTen = ">10", ">10"
+    Unknown = "Unknown", _("Nežinoma")
+    BelowOne = "<1", _("Ne ilgiau nei metus")
+    OneToFive = "1-5", _("Nuo 1 iki 5 metų")
+    SixToTen = "6-10", _("Nuo 6 iki 10 metų")
+    MoreThanTen = ">10", _("Daugiau nei 10 metų")
 
 
 class BaseUserProfile(models.Model):

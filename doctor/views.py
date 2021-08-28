@@ -35,6 +35,7 @@ class SummaryView(UserIsDoctorMixin, TemplateView):
             order_by('-date')
 
         context['nutrition_reports'] = reports
+        context['patient_profile'] = patient.patient_user.profile
 
         return context
 
