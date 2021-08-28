@@ -30,7 +30,7 @@
                 <tbody>
                 {% for dialysis in dialyses %}
                     <tr>
-                        <td>{{ dialysis.started_at|date:"N d" }}</td>
+                        <td>{{ dialysis.started_at|date:"N d"|capfirst }}</td>
                         <td>{{ dialysis.balance|intcomma }}</td>
                         <td>
                             {% if dialysis.solution_yellow_in_ml != 0 %}
