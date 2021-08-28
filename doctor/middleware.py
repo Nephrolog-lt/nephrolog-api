@@ -7,7 +7,7 @@ class AssociateDoctorPatients:
         self.get_response = get_response
 
     def __call__(self, request: HttpRequest) -> HttpResponse:
-        if '/doctor/' not in request.get_full_path_info():
+        if '/doctor/' not in request.get_full_path_info() or not request.user.is_authenticated:
             return self.get_response(request)
 
         from core.models import Doctor
