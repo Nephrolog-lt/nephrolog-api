@@ -438,6 +438,10 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 ACCOUNT_ADAPTER = 'doctor.adapters.AccountAdapter'
 SOCIALACCOUNT_ADAPTER = 'doctor.adapters.SocialAccountAdapter'
 
+# Crispy
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_FAIL_SILENTLY = not DEBUG
+
 EMAIL_FROM = 'info@nephrogo.com'
 CONTACT_PHONE = '+37065253669'
 
